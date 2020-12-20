@@ -10,7 +10,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-@RepositoryEventHandler(ToDo.class)
+@RepositoryEventHandler
 public class ToDoEventHandler {
 
     private Logger log= LoggerFactory.getLogger(ToDoEventHandler.class);
@@ -25,7 +25,7 @@ public class ToDoEventHandler {
 
     @HandleAfterCreate
     public void handleToDoSave(ToDo toDo){
-        this.simpMessagingTemplate.convertAndSendToUser(this.toDoProperties.getBroker()+"/new",toDo);
+        this.simpMessagingTemplate.convertAndSend(this.toDoProperties.getBroker()+"new", toDo);
         log.info(">> Sending Message to WS://todo/new- "+toDo);
     }
 }
